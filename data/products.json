@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "name": "Zapatillas deportivas",
+        "description": "Zapatillas deportivas cómodas y modernas para hombre.",
+        "price": 499.99,
+        "category": "Deportes",
+        "image": "url_de_imagen_zapatillas.jpg",
+        "stock": 10
+    },
+    {
+        "id": 2,
+        "name": "Camiseta deportiva",
+        "description": "Camiseta de algodón con diseño para actividades deportivas.",
+        "price": 299.99,
+        "category": "Ropa",
+        "image": "url_de_imagen_camiseta.jpg",
+        "stock": 15
+    },
+    {
+        "id": 3,
+        "name": "Pantalón deportivo",
+        "description": "Pantalón ligero y flexible para entrenamiento y deportes.",
+        "price": 399.99,
+        "category": "Ropa",
+        "image": "url_de_imagen_pantalon.jpg",
+        "stock": 8
+    }
+]
