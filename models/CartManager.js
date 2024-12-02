@@ -16,12 +16,14 @@ class CartManager {
 
     async getCartById(id) {
         const carts = await this.getCarts();
-        return carts.find(c => c.id === id);
+        const cart = carts.find(c => c.id === id);
+        return cart || null; // Retorna null si no se encuentra el carrito
     }
 
     async createCart() {
         const carts = await this.getCarts();
-        const newCart = { id: carts.length + 1, products: [] };
+        const maxId = carts.length > 0 ? Math.max(...carts.map(c => c.id)) : 0;
+        const newCart = { id: maxId + 1, products: [] };
         carts.push(newCart);
         await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
         return newCart;
@@ -31,6 +33,10 @@ class CartManager {
         const carts = await this.getCarts();
         const cart = carts.find(c => c.id === cartId);
         if (!cart) return null;
+
+        // Suponiendo que tenemos un ProductManager que valida si el producto existe
+        const productExists = await productManager.getProductById(productId); // no olvidar de tener esta referencia
+        if (!productExists) return null; // Producto no válido
 
         const product = cart.products.find(p => p.product === productId);
         if (product) {
