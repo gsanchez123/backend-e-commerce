@@ -4,7 +4,7 @@ const ProductManager = require('../models/ProductManager');
 const router = express.Router();
 const productManager = new ProductManager('./data/products.json');
 
-// Rutas
+// Obtener todos los productos
 router.get('/', async (req, res) => {
     try {
         const limit = req.query.limit ? parseInt(req.query.limit) : null;
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Producto por ID
+// Obtener producto por ID
 router.get('/:pid', async (req, res) => {
     try {
         const productId = parseInt(req.params.pid);
@@ -27,10 +27,13 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
-// Crear producto
+// Crear nuevo producto
 router.post('/', async (req, res) => {
     try {
         const productData = req.body;
+        if (!productData.name || !productData.price || !productData.category) {
+            return res.status(400).json({ message: 'Faltan datos obligatorios' });
+        }
         const newProduct = await productManager.addProduct(productData);
         res.status(201).json(newProduct);
     } catch (error) {
@@ -64,3 +67,4 @@ router.delete('/:pid', async (req, res) => {
 });
 
 module.exports = router;
+

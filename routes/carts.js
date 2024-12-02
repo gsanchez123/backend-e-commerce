@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Obtener carrito
+// Obtener carrito por ID
 router.get('/:cid', async (req, res) => {
     try {
         const cartId = parseInt(req.params.cid);
