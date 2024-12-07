@@ -1,20 +1,28 @@
 const express = require('express');
-const fs = require('fs').promises;
 const cors = require('cors');
+const exphbs = require('express-handlebars');
+const path = require('path');
+
 const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/carts');
+const viewRoutes = require('./routes/views.routes');
+const { initializeSocket } = require('../services/SocketManager');
 
 const app = express();
 const PORT = 8080;
 
+// Configuración de Handlebars
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
+
 // Middleware global
 app.use(express.json());
-app.use(cors()); // Permitir solicitudes desde el frontend
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// Middleware para servir archivos estáticos (como imágenes)
-app.use('/public', express.static('public'));
-
-// Middleware para logging
+// Middleware de registro de solicitudes
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
@@ -23,24 +31,22 @@ app.use((req, res, next) => {
 // Rutas
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
+app.use('/', viewRoutes);
 
-// Ruta de prueba de conexión
+// Ruta raíz
 app.get('/', (req, res) => {
-    res.send('Bienvenido al backend de e-commerce!');
+    res.redirect('/home');
 });
 
-// Manejador de rutas no encontradas
+// Manejo de rutas no encontradas
 app.use((req, res) => {
-    res.status(404).json({ message: 'Ruta no encontrada' });
+    res.status(404).render('404', { message: 'Ruta no encontrada' });
 });
 
-// Manejo de errores global
-app.use((err, req, res, next) => {
-    console.error('Error interno del servidor:', err.message);
-    res.status(500).json({ message: 'Error interno del servidor', error: err.message });
-});
-
-// Iniciar servidor
-app.listen(PORT, () => {
+// Inicialización del servidor
+const server = app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+// Inicializar WebSockets
+initializeSocket(server);
