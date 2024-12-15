@@ -1,0 +1,27 @@
+<h1>Chat en tiempo real</h1>
+<ul id="messages"></ul>
+<form id="chatForm">
+    <input type="text" id="message" placeholder="Escribe un mensaje" required />
+    <button type="submit">Enviar</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const form = document.getElementById('chatForm');
+    const messages = document.getElementById('messages');
+
+    socket.on('newMessage', (message) => {
+        const li = document.createElement('li');
+        li.textContent = message;
+        messages.appendChild(li);
+    });
+
+    form.onsubmit = (e) => {
+        e.preventDefault();
+        const message = document.getElementById('message').value;
+        socket.emit('sendMessage', message);
+        form.reset();
+    };
+</script>
