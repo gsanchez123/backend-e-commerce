@@ -1,60 +1,38 @@
-const express = require('express');
-const { Server } = require('socket.io');
-const http = require('http');
-const handlebars = require('express-handlebars');
-const path = require('path');
-const ProductManager = require('./services/ProductManager'); // Asegúrate de que ProductManager esté en esta ubicación
-const fs = require('fs');
+import express from 'express';
+import { Server } from 'socket.io';
+import http from 'http';
+import handlebars from 'express-handlebars';
+import path from 'path';
+import ProductManager from './services/ProductManager.js'; // Modificado para importar correctamente
+import { connectMongoDB } from './config/mongodb.config.js';
+import productsRoutes from './routes/products.routes.js';
+import cartsRoutes from './routes/carts.routes.js';
 
 // Inicialización de la aplicación
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Configuración de Handlebars como motor de plantillas
+// Configuración de Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));  // Asegúrate de que las vistas estén en esta carpeta
+app.set('views', path.join(__dirname, 'views'));  // Ruta a las vistas
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));  // Asegúrate de que los archivos estáticos estén aquí
+app.use(express.static(path.join(__dirname, 'public')));  // Archivos estáticos
 
-// Creación de ProductManager para manejar los productos
-const productManager = new ProductManager('./data/products.json');
+// Conexión a MongoDB
+connectMongoDB();
 
 // Rutas
-const viewRoutes = require('./routes/views.routes');  // Importar las rutas de vista
-app.use('/', viewRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/carts', cartsRoutes);
 
-const productRoutes = require('./routes/products');
-app.use('/api/products', productRoutes);
-
-// Conexión de WebSocket con Socket.IO
+// Conexión de WebSocket
 io.on('connection', (socket) => {
     console.log('Nuevo cliente conectado');
-
-    // Enviar lista de productos al cliente que se conecta
-    socket.emit('updateProducts', productManager.getProducts());
-
-    // Escuchar cuando un producto es agregado
-    socket.on('addProduct', async (product) => {
-        await productManager.addProduct(product);
-        io.emit('updateProducts', await productManager.getProducts());
-    });
-
-    // Escuchar cuando un producto es eliminado
-    socket.on('deleteProduct', async (id) => {
-        await productManager.deleteProduct(id);
-        io.emit('updateProducts', await productManager.getProducts());
-    });
-
-    // Persistencia del chat: Escuchar mensajes enviados
-    socket.on('sendMessage', (message) => {
-        io.emit('newMessage', message);
-    });
-
     socket.on('disconnect', () => {
         console.log('Cliente desconectado');
     });
