@@ -1,6 +1,22 @@
-<h1>Productos</h1>
-<ul>
+{{!-- Mostrar productos --}}
+<div>
     {{#each products}}
-    <li>{{this.name}} - ${{this.price}}</li>
+    <div class="product">
+        <img src="{{this.thumbnail}}" alt="{{this.name}}">
+        <h2>{{this.name}}</h2>
+        <p>{{this.description}}</p>
+        <p>${{this.price}}</p>
+        <button>Add to Cart</button>
+    </div>
     {{/each}}
-</ul>
+</div>
+
+<!-- Paginación -->
+<div>
+    {{#if prevPage}}
+    <a href="{{prevLink}}">Previous</a>
+    {{/if}}
+    {{#if nextPage}}
+    <a href="{{nextLink}}">Next</a>
+    {{/if}}
+</div>
