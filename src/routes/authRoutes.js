@@ -11,11 +11,11 @@ router.post("/register", async (req, res) => {
     try {
         const { first_name, last_name, email, age, password } = req.body;
 
-        // Verificar si el usuario ya existe
+        // Verifica si el usuario ya existe
         const userExists = await User.findOne({ email });
         if (userExists) return res.status(400).json({ message: "El usuario ya existe" });
 
-        // Crear usuario con contraseña encriptada
+        // Crea usuario con contraseña encriptada
         const newUser = new User({
             first_name,
             last_name,
@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Buscar usuario por email
+        // Busca usuario por email
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: "Usuario no encontrado" });
 
