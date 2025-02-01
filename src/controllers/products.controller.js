@@ -1,4 +1,4 @@
-import Product from './models/product.model.js';
+import Product from '../models/product.model.js';
 
 // Obtener productos con filtros, paginación y ordenamiento
 export const getProducts = async (req, res) => {

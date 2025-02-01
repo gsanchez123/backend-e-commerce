@@ -3,10 +3,12 @@ import { Server } from 'socket.io';
 import http from 'http';
 import handlebars from 'express-handlebars';
 import path from 'path';
-import ProductManager from './services/ProductManager.js'; // Modificado para importar correctamente
+import cookieParser from 'cookie-parser';
+import passport from './config/passport.js';
 import { connectMongoDB } from './config/mongodb.config.js';
 import productsRoutes from './routes/products.routes.js';
 import cartsRoutes from './routes/carts.routes.js';
+import authRoutes from './routes/authRoutes.js';
 
 // Inicialización de la aplicación
 const app = express();
@@ -16,12 +18,14 @@ const io = new Server(server);
 // Configuración de Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));  // Ruta a las vistas
+app.set('views', path.join(__dirname, 'views'));
 
-// Middleware
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));  // Archivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+app.use(passport.initialize());
 
 // Conexión a MongoDB
 connectMongoDB();
@@ -29,6 +33,7 @@ connectMongoDB();
 // Rutas
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
+app.use('/api/sessions', authRoutes);
 
 // Conexión de WebSocket
 io.on('connection', (socket) => {
