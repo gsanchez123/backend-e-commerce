@@ -3,12 +3,17 @@ import { Server } from 'socket.io';
 import http from 'http';
 import handlebars from 'express-handlebars';
 import path from 'path';
+import { fileURLToPath } from 'url'; 
 import cookieParser from 'cookie-parser';
 import passport from './config/passport.js';
 import { connectMongoDB } from './config/mongodb.config.js';
 import productsRoutes from './routes/products.routes.js';
 import cartsRoutes from './routes/carts.routes.js';
 import authRoutes from './routes/authRoutes.js';
+
+// Obtener __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Inicialización de la aplicación
 const app = express();

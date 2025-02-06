@@ -1,4 +1,4 @@
-import Product from '../models/product.model.js';
+import Product from '../models/products.model.js';
 
 // Obtener productos con filtros, paginación y ordenamiento
 export const getProducts = async (req, res) => {
@@ -33,8 +33,22 @@ export const getProducts = async (req, res) => {
     }
 };
 
+// Obtener un producto por ID
+export const getProductById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ status: 'error', message: 'Producto no encontrado' });
+        }
+        res.json({ status: 'success', payload: product });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+};
+
 // Agregar un producto
-export const addProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
     try {
         const newProduct = new Product(req.body);
         await newProduct.save();
@@ -44,11 +58,25 @@ export const addProduct = async (req, res) => {
     }
 };
 
+// Actualizar un producto
+export const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedProduct) {
+            return res.status(404).json({ status: 'error', message: 'Producto no encontrado' });
+        }
+        res.json({ status: 'success', payload: updatedProduct });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+};
+
 // Eliminar un producto
 export const deleteProduct = async (req, res) => {
     try {
-        const { pid } = req.params;
-        const deletedProduct = await Product.findByIdAndDelete(pid);
+        const { id } = req.params;
+        const deletedProduct = await Product.findByIdAndDelete(id);
         if (!deletedProduct) {
             return res.status(404).json({ status: 'error', message: 'Producto no encontrado' });
         }
