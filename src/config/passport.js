@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import User from '../models/user.model.js';
+import User from '../models/User.model.js';
 import dotenv from 'dotenv';
 
 dotenv.config(); // Cargar variables de entorno desde .env

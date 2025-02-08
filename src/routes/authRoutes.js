@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/user.model.js";
+import User from "../models/User.model.js";
 import { hashPassword, comparePassword } from "../utils/hash.js";
 import { generateToken } from "../utils/jwt.js";
 import passport from "passport";

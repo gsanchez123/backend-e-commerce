@@ -3,24 +3,25 @@ import { Server } from 'socket.io';
 import http from 'http';
 import handlebars from 'express-handlebars';
 import path from 'path';
-import { fileURLToPath } from 'url'; 
+import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import passport from './config/passport.js';
 import { connectMongoDB } from './config/mongodb.config.js';
 import productsRoutes from './routes/products.routes.js';
 import cartsRoutes from './routes/carts.routes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/users.routes.js'; // Rutas de usuarios
 
 // Obtener __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Inicialización de la aplicación
+// Inicializacion de la aplicacion
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Configuración de Handlebars
+// Configuracion de Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +40,7 @@ connectMongoDB();
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
 app.use('/api/sessions', authRoutes);
+app.use('/api/users', userRoutes); //rutas de usuarios
 
 // Conexión de WebSocket
 io.on('connection', (socket) => {
@@ -49,7 +51,7 @@ io.on('connection', (socket) => {
 });
 
 // Configuración del puerto
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
 });
