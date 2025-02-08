@@ -3,11 +3,11 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import User from '../models/User.model.js';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Cargar variables de entorno desde .env
+dotenv.config(); // Carga variables de entorno desde .env
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET || 'defaultSecret', // Evitar error si JWT_SECRET no está definido
+    secretOrKey: process.env.JWT_SECRET || 'defaultSecret', // Evita error si JWT_SECRET no está definido
 };
 
 passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
@@ -22,4 +22,4 @@ passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
     }
 }));
 
-export default passport; // 🚀 Agregar exportación default
+export default passport; 
