@@ -1,0 +1,19 @@
+<div class="container mt-4">
+    <h1>Listado de Productos</h1>
+    <div class="row">
+        {{#each payload}}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="{{this.image}}" class="card-img-top" alt="{{this.name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">Precio: ${{this.price}}</p>
+                    <a href="/product/{{this._id}}" class="btn btn-primary">Ver Detalle</a>
+                    <!-- Botón para agregar al carrito, con data-product-id -->
+                    <button class="btn btn-success add-to-cart" data-product-id="{{this._id}}">Agregar al Carrito</button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

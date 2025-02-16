@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
+    <!-- Bootstrap CSS (opcional para un diseño profesional) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Toastify CSS para notificaciones -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    {{{body}}} <!-- Aquí se insertará el contenido de cada vista -->
+    <!-- Contenido de cada vista se inyecta aquí -->
+    {{{body}}}
+
+    <!-- Bootstrap Bundle JS (opcional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- Tu script personalizado -->
+    <script src="/js/main.js"></script>
 </body>
 </html>
+
 
