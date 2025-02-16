@@ -1,14 +1,42 @@
 [
     {
-        "id": 1,
-        "name": "Producto 1",
-        "price": 100
+        "id": "661f3a7d8a4b9f3e1e4c8e12",
+        "name": "Remera Nike Dri-Fit",
+        "price": 35.99,
+        "description": "Remera deportiva con tecnología Dri-Fit para mantenerte seco.",
+        "category": "remeras",
+        "stock": 50,
+        "availability": true,
+        "thumbnail": "/img/remera-nike.jpg"
     },
     {
-        "id": 2,
-        "name": "Producto 2",
-        "price": 200
+        "id": "661f3a7d8a4b9f3e1e4c8e13",
+        "name": "Zapatillas Adidas Ultraboost",
+        "price": 120.00,
+        "description": "Zapatillas de running con amortiguación superior y suela Boost.",
+        "category": "zapatillas",
+        "stock": 30,
+        "availability": true,
+        "thumbnail": "/img/zapatillas-adidas.jpg"
+    },
+    {
+        "id": "661f3a7d8a4b9f3e1e4c8e14",
+        "name": "Traje de Baño Speedo",
+        "price": 29.99,
+        "description": "Traje de baño profesional resistente al cloro.",
+        "category": "trajes de baño",
+        "stock": 20,
+        "availability": true,
+        "thumbnail": "/img/traje-bano-speedo.jpg"
+    },
+    {
+        "id": "661f3a7d8a4b9f3e1e4c8e15",
+        "name": "Musculosa Puma Training",
+        "price": 25.50,
+        "description": "Musculosa de entrenamiento con tela transpirable.",
+        "category": "musculosas",
+        "stock": 40,
+        "availability": true,
+        "thumbnail": "/img/musculosa-puma.jpg"
     }
 ]
-
-

@@ -1,1 +1,30 @@
-[]
+[
+    {
+        "id": "1",
+        "userId": "65f3a7d8a4b9f3e1e4c8e123",
+        "products": [
+            {
+                "productId": "661f3a7d8a4b9f3e1e4c8e12",
+                "quantity": 2
+            },
+            {
+                "productId": "661f3a7d8a4b9f3e1e4c8e13",
+                "quantity": 1
+            }
+        ],
+        "createdAt": "2024-02-15T10:00:00.000Z",
+        "updatedAt": "2024-02-15T10:30:00.000Z"
+    },
+    {
+        "id": "2",
+        "userId": "65f3a7d8a4b9f3e1e4c8e456",
+        "products": [
+            {
+                "productId": "661f3a7d8a4b9f3e1e4c8e14",
+                "quantity": 3
+            }
+        ],
+        "createdAt": "2024-02-16T11:00:00.000Z",
+        "updatedAt": "2024-02-16T11:45:00.000Z"
+    }
+]

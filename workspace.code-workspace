@@ -1,4 +1,34 @@
 {
-	"folders": [],
-	"settings": {}
+	"folders": [
+		{
+			"path": "." // Indica que el espacio de trabajo es la carpeta raíz del proyecto
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"node_modules": true,
+			"dist": true,
+			".git": true,
+			".env": true
+		},
+		"editor.tabSize": 2,
+		"editor.formatOnSave": true,
+		"eslint.enable": true,
+		"eslint.validate": [
+			"javascript",
+			"javascriptreact"
+		],
+		"terminal.integrated.defaultProfile.windows": "Git Bash",
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"christian-kohler.path-intellisense",
+			"streetsidesoftware.code-spell-checker"
+		]
+	}
 }
