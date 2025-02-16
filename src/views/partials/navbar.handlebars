@@ -6,15 +6,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/products">Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cart">Carrito</a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="/products">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart">Carrito</a></li>
+                <li class="nav-item"><a class="nav-link" href="/chat">Chat</a></li>
+                {{#if user}}
+                    <li class="nav-item"><span class="nav-link">Hola, {{user.name}}</span></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="/logout">Cerrar Sesión</a></li>
+                {{else}}
+                    <li class="nav-item"><a class="nav-link" href="/login">Iniciar Sesión</a></li>
+                {{/if}}
             </ul>
         </div>
     </div>

@@ -1,3 +1,73 @@
-<footer class="bg-dark text-white text-center py-3 mt-5">
-    <p>&copy; {{year}} Trendify - Moda Urbana & Deportiva</p>
+<footer class="footer bg-dark text-white text-center py-3 mt-5">
+    <div class="container">
+        <p>&copy; {{year}} <strong>Trendify</strong> - Moda Urbana & Deportiva</p>
+        
+        <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank" class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.twitter.com" target="_blank" class="social-icon">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        
+        <p class="small">
+            <a href="/privacy-policy" class="text-light">Política de Privacidad</a> | 
+            <a href="/terms" class="text-light">Términos y Condiciones</a>
+        </p>
+    </div>
 </footer>
+
+<style>
+    /* 🎨 Estilos Mejorados para el Footer */
+    .footer {
+        background: #222;
+        color: #fff;
+        padding: 20px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .social-icons {
+        margin-top: 10px;
+    }
+
+    .social-icon {
+        display: inline-block;
+        margin: 0 10px;
+        font-size: 18px;
+        color: #fff;
+        transition: 0.3s;
+    }
+
+    .social-icon:hover {
+        color: #17a2b8;
+    }
+
+    .small {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .small a {
+        text-decoration: none;
+    }
+
+    .small a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<script>
+    // 🕒 Agrega automáticamente el año actual al footer
+    document.addEventListener("DOMContentLoaded", function() {
+        const yearElement = document.querySelector(".footer p strong");
+        if (yearElement) {
+            yearElement.innerHTML = `Trendify ${new Date().getFullYear()}`;
+        }
+    });
+</script>

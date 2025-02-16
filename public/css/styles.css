@@ -1,9 +1,35 @@
 /* 🎨 Estilos Generales */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #f4f4f4;
+}
+
+/* 🏷️ Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 🔹 Navbar */
+.navbar {
+    background-color: #007bff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
 }
 
 /* 🛍️ Contenedor de productos */
@@ -15,26 +41,28 @@ body {
     padding: 20px;
 }
 
-/* 🏷️ Tarjeta de producto */
+/* 📦 Tarjeta de producto */
 .product-card {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    width: 250px;
+    width: 280px;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
 .product-card:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .product-card img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 .product-card h2 {
@@ -43,11 +71,12 @@ body {
 }
 
 .product-card p {
-    color: #777;
+    color: #666;
+    font-size: 14px;
 }
 
 .product-card button {
-    background: #007bff;
+    background: #28a745;
     color: white;
     padding: 10px;
     border: none;
@@ -55,18 +84,19 @@ body {
     width: 100%;
     border-radius: 5px;
     font-size: 16px;
+    transition: background 0.3s ease;
 }
 
 .product-card button:hover {
-    background: #0056b3;
+    background: #218838;
 }
 
 /* 🛒 Carrito de compras */
 .cart-container {
-    background: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     margin: 20px auto;
 }
@@ -74,20 +104,21 @@ body {
 .cart-title {
     font-size: 22px;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 12px;
     border-bottom: 1px solid #ddd;
 }
 
 .cart-item img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
     border-radius: 5px;
 }
@@ -96,11 +127,73 @@ body {
     background: #dc3545;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 6px 12px;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s ease;
 }
 
 .cart-item button:hover {
     background: #c82333;
+}
+
+/* ✉️ Chat */
+.chat-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-messages {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chat-input button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.chat-input button:hover {
+    background: #0056b3;
+}
+
+/* 📱 Responsividad */
+@media screen and (max-width: 768px) {
+    .products-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .cart-container {
+        max-width: 90%;
+    }
+    .chat-container {
+        max-width: 90%;
+    }
 }

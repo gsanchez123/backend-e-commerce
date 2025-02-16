@@ -1,4 +1,3 @@
-// src/app.js
 import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
@@ -18,6 +17,7 @@ import userRoutes from './routes/users.routes.js';
 import ticketRoutes from './routes/ticket.routes.js';
 import { MailingService } from './services/mailing.service.js';
 import { TwilioService } from './services/twilio.service.js';
+import Product from './models/products.model.js'; // Importamos modelo de productos
 
 dotenv.config();
 
@@ -29,7 +29,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
-// Configuración de Socket.IO (para chat en vivo, etc.)
+// Configuración de Socket.IO (para chat en vivo y productos en tiempo real)
 const io = new Server(server, { cors: { origin: '*' } });
 
 // Configuración de Handlebars con layouts y partials
@@ -89,16 +89,45 @@ app.get('/', (req, res) => {
     res.render('home', { title: 'Trendify - Inicio' });
 });
 
-// Configuración de WebSocket para chat en vivo
+// Configuración de WebSocket para chat en vivo y productos en tiempo real
 io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
+    console.log('✅ Nuevo cliente conectado');
 
+    // Emitir productos iniciales al usuario que se conecta
+    Product.find()
+        .then((products) => socket.emit('updateProducts', products))
+        .catch((err) => console.error('Error al obtener productos:', err));
+
+    // Agregar un nuevo producto
+    socket.on('addProduct', async (productData) => {
+        try {
+            const newProduct = await Product.create(productData);
+            const allProducts = await Product.find();
+            io.emit('updateProducts', allProducts);
+        } catch (error) {
+            console.error('Error al agregar producto:', error);
+        }
+    });
+
+    // Eliminar un producto
+    socket.on('deleteProduct', async (productId) => {
+        try {
+            await Product.findByIdAndDelete(productId);
+            const allProducts = await Product.find();
+            io.emit('updateProducts', allProducts);
+            io.emit('productDeleted', 'Producto eliminado exitosamente');
+        } catch (error) {
+            console.error('Error al eliminar producto:', error);
+        }
+    });
+
+    // Mensajería en vivo
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
     });
 
     socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
+        console.log('❌ Cliente desconectado');
     });
 });
 

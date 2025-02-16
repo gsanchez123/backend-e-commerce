@@ -1,14 +1,89 @@
-<h1>Productos en tiempo real</h1>
-<form id="productForm">
-    <input type="text" id="name" placeholder="Nombre del producto" required />
-    <input type="number" id="price" placeholder="Precio" required />
-    <button type="submit">Agregar Producto</button>
-</form>
+<div class="container mt-5">
+    <h1 class="text-center text-primary">🛍️ Productos en tiempo real</h1>
 
-<ul id="productList"></ul>
+    <!-- Formulario para agregar productos -->
+    <form id="productForm" class="row g-3">
+        <div class="col-md-5">
+            <input type="text" id="name" class="form-control" placeholder="Nombre del producto" required />
+        </div>
+        <div class="col-md-3">
+            <input type="number" id="price" class="form-control" placeholder="Precio" required />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-success w-100">
+                <i class="fas fa-plus"></i> Agregar
+            </button>
+        </div>
+    </form>
+
+    <!-- Lista de productos en tiempo real -->
+    <ul id="productList" class="list-group mt-4"></ul>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
     const socket = io();
+    const form = document.getElementById("productForm");
+    const productList = document.getElementById("productList");
 
-    const form = document.getElementById
+    // Enviar producto al servidor
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const price = parseFloat(document.getElementById("price").value);
+
+        if (!name || isNaN(price) || price <= 0) {
+            Toastify({
+                text: "❌ Ingrese un nombre y precio válidos",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#FF5733"
+            }).showToast();
+            return;
+        }
+
+        socket.emit("addProduct", { name, price });
+
+        // Limpiar formulario
+        form.reset();
+    });
+
+    // Escuchar productos en tiempo real
+    socket.on("updateProducts", (products) => {
+        productList.innerHTML = ""; // Limpiar lista
+
+        products.forEach((product) => {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+            li.innerHTML = `
+                <strong>${product.name}</strong> - $${product.price}
+                <button class="btn btn-danger btn-sm delete-product" data-id="${product._id}">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            `;
+            productList.appendChild(li);
+        });
+
+        // Agregar eventos a los botones de eliminar
+        document.querySelectorAll(".delete-product").forEach((button) => {
+            button.addEventListener("click", (event) => {
+                const productId = event.target.closest("button").dataset.id;
+                socket.emit("deleteProduct", productId);
+            });
+        });
+    });
+
+    // Mostrar mensaje cuando se elimina un producto
+    socket.on("productDeleted", (message) => {
+        Toastify({
+            text: "✅ " + message,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#28a745"
+        }).showToast();
+    });
+</script>

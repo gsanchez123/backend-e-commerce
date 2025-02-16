@@ -1,61 +1,30 @@
-<head>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    {{{body}}}  <!-- Aquí se renderiza el contenido de cada vista -->
-    <script src="/js/main.js"></script>
+{{> navbar}}
 
-    {{!-- Usa el layout principal --}}
-    {{> navbar}}  {{!-- Navbar reutilizable --}}
+<div class="container mt-4 text-center">
+    <h1 class="display-4">Bienvenido a <span class="text-primary">Trendify</span></h1>
+    <p class="lead">Explora nuestros productos y disfruta de una experiencia de compra única.</p>
+    <a href="/products" class="btn btn-primary btn-lg m-2">Ver Productos</a>
+    <a href="/chat" class="btn btn-secondary btn-lg m-2">Chat en Vivo</a>
+</div>
 
-    <!-- 🎉 Sección de bienvenida -->
-    <div class="container mt-4 text-center">
-        <h1 class="display-4">Bienvenido a <span class="text-primary">Trendify</span></h1>
-        <p class="lead">Explora nuestros productos y disfruta de una experiencia de compra única.</p>
-        <a href="/api/products" class="btn btn-primary btn-lg m-2">Ver Productos</a>
-        <a href="/chat" class="btn btn-secondary btn-lg m-2">Chat en Vivo</a>
-    </div>
-
-    <!-- 🛍️ Lista de Productos -->
-    <div class="container mt-4">
-        <h2 class="text-center text-dark">Nuestros Productos</h2>
-        <div class="row">
-            {{#each products}}
-            <div class="col-md-4 mb-4">
-                <div class="card product-card">
-                    <img src="{{this.thumbnail}}" class="card-img-top" alt="{{this.name}}">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{this.name}}</h5>
-                        <p class="card-text">{{this.description}}</p>
-                        <p class="text-success fw-bold">${{this.price}}</p>
-                        <button class="btn btn-success add-to-cart" data-id="{{this._id}}">
-                            <i class="fas fa-cart-plus"></i> Añadir al carrito
-                        </button>
-                    </div>
+<div class="container mt-4">
+    <div class="row">
+        {{#each products}}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{this.thumbnail}}" class="card-img-top" alt="{{this.name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">{{this.description}}</p>
+                    <p class="text-success fw-bold">${{this.price}}</p>
+                    <button class="btn btn-success add-to-cart" data-id="{{this._id}}">
+                        <i class="fas fa-cart-plus"></i> Añadir al carrito
+                    </button>
                 </div>
             </div>
-            {{/each}}
         </div>
+        {{/each}}
     </div>
+</div>
 
-    <!-- 🛒 Sección del Carrito -->
-    <div class="container mt-4">
-        <h2 class="text-center text-dark">🛒 Carrito de Compras (<span id="cart-count">0</span>)</h2>
-        <div class="cart-container">
-            <div id="cart-items"></div>
-        </div>
-    </div>
-
-    <!-- 📄 Paginación -->
-    <div class="container mt-4 text-center">
-        {{#if prevPage}}
-            <a href="{{prevLink}}" class="btn btn-outline-primary">← Anterior</a>
-        {{/if}}
-        {{#if nextPage}}
-            <a href="{{nextLink}}" class="btn btn-outline-primary">Siguiente →</a>
-        {{/if}}
-    </div>
-
-</body>
-
-{{> footer}}  {{!-- Footer reutilizable --}}
+{{> footer}}
