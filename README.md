@@ -1,7 +1,7 @@
 # backend-e-commerce 2
 # E-Commerce Final
 
-Este proyecto es la entrega final del e-commerce, implementado con una arquitectura en capas, DAO, Repository, DTO, autenticación con roles, mailing (Mailtrap) y mensajería SMS/WhatsApp (Twilio).
+Este proyecto es la entrega final de e-commerce, implementado con una arquitectura en capas, DAO, Repository, DTO, autenticación con roles, mailing (Mailtrap) y mensajería SMS/WhatsApp (Twilio).
 
 ## Requisitos
 
