@@ -1,7 +1,7 @@
 import { ProductDAO } from '../dao/product.dao.js';
 
 export class ProductRepository {
-    // Crear un nuevo producto
+    // Crea un nuevo producto
     static async createProduct(data) {
         try {
             return await ProductDAO.create(data);
@@ -10,7 +10,7 @@ export class ProductRepository {
         }
     }
 
-    // Obtener un producto por ID
+    // Obtiene un producto por ID
     static async getProductById(id) {
         try {
             return await ProductDAO.getById(id);
@@ -37,7 +37,7 @@ export class ProductRepository {
         }
     }
 
-    // Eliminar un producto por ID
+    // Elimina un producto por ID
     static async deleteProduct(id) {
         try {
             return await ProductDAO.delete(id);

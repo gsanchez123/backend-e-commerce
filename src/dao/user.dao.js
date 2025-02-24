@@ -2,7 +2,7 @@
 import User from '../models/User.model.js';
 
 export class UserDAO {
-    // Crear un nuevo usuario con validaciones
+    // Crea un nuevo usuario con validaciones
     static async create(userData) {
         try {
             const newUser = new User(userData);
@@ -12,7 +12,7 @@ export class UserDAO {
         }
     }
 
-    // Obtener usuario por ID con control de errores
+    // Obtiene usuario por ID con control de errores
     static async getById(id) {
         try {
             return await User.findById(id);
@@ -21,7 +21,7 @@ export class UserDAO {
         }
     }
 
-    // Obtener usuario por email con validación
+    // Obtiene usuario por email con validación
     static async getByEmail(email) {
         try {
             return await User.findOne({ email });
@@ -30,7 +30,7 @@ export class UserDAO {
         }
     }
 
-    // Actualizar usuario y retornar la versión nueva
+    // Actualiza usuario y retorna la versión nueva
     static async update(id, data) {
         try {
             return await User.findByIdAndUpdate(id, data, { new: true, runValidators: true });
@@ -39,7 +39,7 @@ export class UserDAO {
         }
     }
 
-    // Eliminar usuario por ID con control de errores
+    // Elimina usuario por ID con control de errores
     static async delete(id) {
         try {
             return await User.findByIdAndDelete(id);

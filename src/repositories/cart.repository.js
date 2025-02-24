@@ -1,57 +1,27 @@
-import { cartDao } from '../dao/cart.dao.js'; // Se corrigió la ruta de importación
+import { cartDao } from '../dao/cart.dao.js';
 
 export class CartRepository {
-    // Crear un nuevo carrito
     static async createCart(data) {
-        try {
-            return await cartDao.create(data);
-        } catch (error) {
-            throw new Error(`Error al crear carrito: ${error.message}`);
-        }
+        return await cartDao.create(data);
     }
 
-    // Obtener un carrito por ID
     static async getCartById(cartId) {
-        try {
-            return await cartDao.getById(cartId);
-        } catch (error) {
-            throw new Error(`Error al obtener carrito por ID: ${error.message}`);
-        }
+        return await cartDao.getById(cartId);
     }
 
-    // Obtener todos los carritos
     static async getAllCarts() {
-        try {
-            return await cartDao.getAll();
-        } catch (error) {
-            throw new Error(`Error al obtener todos los carritos: ${error.message}`);
-        }
+        return await cartDao.getAll();
     }
 
-    // Actualizar un carrito
     static async updateCart(cartId, updateData) {
-        try {
-            return await cartDao.update(cartId, updateData);
-        } catch (error) {
-            throw new Error(`Error al actualizar carrito: ${error.message}`);
-        }
+        return await cartDao.update(cartId, updateData);
     }
 
-    // Eliminar un carrito
     static async deleteCart(cartId) {
-        try {
-            return await cartDao.delete(cartId);
-        } catch (error) {
-            throw new Error(`Error al eliminar carrito: ${error.message}`);
-        }
+        return await cartDao.delete(cartId);
     }
 
-    // Eliminar un producto del carrito
-    static async deleteProductFromCart(cartId, productId) {
-        try {
-            return await cartDao.deleteProductInCart(cartId, productId);
-        } catch (error) {
-            throw new Error(`Error al eliminar producto del carrito: ${error.message}`);
-        }
+    static async addProductToCart(cartId, productId, quantity) {
+        return await cartDao.addProductToCart(cartId, productId, quantity);
     }
 }

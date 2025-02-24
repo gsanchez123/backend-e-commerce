@@ -14,7 +14,7 @@ export const connectDB = async () => {
 
         console.log('✅ Conectado a MongoDB correctamente');
 
-        // Solo mostrar la URI en modo desarrollo (evitar en producción por seguridad)
+        // Solo mostrar la URI en modo desarrollo 
         if (process.env.NODE_ENV !== 'production') {
             console.log(`📡 Conectado a: ${mongoURI}`);
         }

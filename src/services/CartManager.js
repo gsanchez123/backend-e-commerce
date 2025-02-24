@@ -35,7 +35,7 @@ class CartManager {
         }
     }
 
-    // Crear un nuevo carrito
+    // Crea un nuevo carrito
     async createCart() {
         try {
             const carts = await this._readCarts();
@@ -48,7 +48,7 @@ class CartManager {
         }
     }
 
-    // Agregar un producto a un carrito
+    // Agrega un producto a un carrito
     async addProductToCart(cartId, productId) {
         try {
             const carts = await this._readCarts();
@@ -64,7 +64,7 @@ class CartManager {
                 throw new Error(`Producto con ID ${productId} no encontrado`);
             }
 
-            // Buscar si el producto ya está en el carrito
+            // Busca si el producto ya está en el carrito
             const existingProductIndex = carts[cartIndex].products.findIndex(p => p.id === productId);
 
             if (existingProductIndex !== -1) {

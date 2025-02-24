@@ -1,12 +1,13 @@
-import Cart from '../models/cart.model.js';
-import Product from '../models/products.model.js';
+import { CartRepository } from '../repositories/cart.repository.js';
+import { ProductRepository } from '../repositories/product.repository.js';
 import { TicketService } from '../services/ticket.service.js';
+import { MailingService } from '../services/mailing.service.js';
 
 // 📌 Obtiene un carrito por ID
 export const getCartById = async (req, res) => {
     try {
         const { cid } = req.params;
-        const cart = await Cart.findById(cid).populate('products.productId');
+        const cart = await CartRepository.getCartById(cid);
 
         if (!cart) {
             return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
@@ -29,31 +30,19 @@ export const addProductToCart = async (req, res) => {
             return res.status(400).json({ status: 'error', message: 'La cantidad debe ser mayor a 0' });
         }
 
-        const cart = await Cart.findById(cid);
-        const product = await Product.findById(pid);
+        const cart = await CartRepository.getCartById(cid);
+        const product = await ProductRepository.getProductById(pid);
 
-        if (!cart) {
-            return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
-        }
-        if (!product) {
-            return res.status(404).json({ status: 'error', message: 'Producto no encontrado' });
-        }
+        if (!cart) return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
+        if (!product) return res.status(404).json({ status: 'error', message: 'Producto no encontrado' });
         if (product.stock < quantity) {
             return res.status(400).json({ status: 'error', message: 'Stock insuficiente' });
         }
 
-        const existingProduct = cart.products.find((prod) => prod.productId.toString() === pid);
-        if (existingProduct) {
-            existingProduct.quantity += quantity;
-        } else {
-            cart.products.push({ productId: pid, quantity });
-        }
+        await CartRepository.addProductToCart(cid, pid, quantity);
+        await ProductRepository.updateProductStock(pid, -quantity);
 
-        await cart.save();
-        product.stock -= quantity;
-        await product.save();
-
-        res.json({ status: 'success', payload: cart });
+        res.json({ status: 'success', message: 'Producto agregado al carrito' });
     } catch (error) {
         console.error(`Error al agregar producto al carrito: ${error.message}`);
         res.status(500).json({ status: 'error', message: 'Error interno del servidor' });
@@ -65,25 +54,21 @@ export const removeProductFromCart = async (req, res) => {
     try {
         const { cid, pid } = req.params;
 
-        const cart = await Cart.findById(cid);
+        const cart = await CartRepository.getCartById(cid);
         if (!cart) {
             return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
         }
 
-        const productIndex = cart.products.findIndex((prod) => prod.productId.toString() === pid);
-        if (productIndex === -1) {
+        const productInCart = cart.products.find(p => p.product.toString() === pid);
+        if (!productInCart) {
             return res.status(404).json({ status: 'error', message: 'Producto no encontrado en el carrito' });
         }
 
-        // Recuperar la cantidad del producto eliminada y devolver al stock
-        const product = await Product.findById(pid);
-        if (product) {
-            product.stock += cart.products[productIndex].quantity;
-            await product.save();
-        }
+        // Devolver stock del producto eliminado
+        await ProductRepository.updateProductStock(pid, productInCart.quantity);
 
-        cart.products.splice(productIndex, 1);
-        await cart.save();
+        // Remover el producto del carrito
+        await CartRepository.deleteProductFromCart(cid, pid);
 
         res.json({ status: 'success', message: 'Producto eliminado del carrito' });
     } catch (error) {
@@ -96,7 +81,7 @@ export const removeProductFromCart = async (req, res) => {
 export const emptyCart = async (req, res) => {
     try {
         const { cid } = req.params;
-        const cart = await Cart.findById(cid);
+        const cart = await CartRepository.getCartById(cid);
 
         if (!cart) {
             return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
@@ -104,15 +89,11 @@ export const emptyCart = async (req, res) => {
 
         // Devolver stock de los productos al vaciar el carrito
         for (const item of cart.products) {
-            const product = await Product.findById(item.productId);
-            if (product) {
-                product.stock += item.quantity;
-                await product.save();
-            }
+            await ProductRepository.updateProductStock(item.product, item.quantity);
         }
 
-        cart.products = [];
-        await cart.save();
+        // Vaciar el carrito
+        await CartRepository.updateCart(cid, { products: [] });
 
         res.json({ status: 'success', message: 'Carrito vaciado correctamente' });
     } catch (error) {
@@ -121,44 +102,33 @@ export const emptyCart = async (req, res) => {
     }
 };
 
-// 📌 Proceso de compra y generación de ticket
+// 📌 Proceso de compra y generación de ticket con envío de correo
 export const purchaseCart = async (req, res) => {
     try {
         const { cid } = req.params;
-        const { email } = req.user; // Usuario autenticado
+        const { email } = req.user;
 
-        const cart = await Cart.findById(cid).populate('products.productId');
-        if (!cart) {
-            return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
-        }
+        const cart = await CartRepository.getCartById(cid);
+        if (!cart) return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
 
         let totalAmount = 0;
         const purchasedProducts = [];
         const insufficientStock = [];
 
         for (const item of cart.products) {
-            const product = await Product.findById(item.productId);
+            const product = await ProductRepository.getProductById(item.product);
             if (product.stock >= item.quantity) {
                 totalAmount += product.price * item.quantity;
-                purchasedProducts.push({
-                    product: product._id,
-                    quantity: item.quantity
-                });
+                purchasedProducts.push({ product: product._id, quantity: item.quantity });
             } else {
                 insufficientStock.push(product._id.toString());
             }
         }
 
-        // Actualizar stock para productos comprados
-        for (const item of cart.products) {
-            if (!insufficientStock.includes(item.productId.toString())) {
-                const product = await Product.findById(item.productId);
-                product.stock -= item.quantity;
-                await product.save();
-            }
+        for (const item of purchasedProducts) {
+            await ProductRepository.updateProductStock(item.product, -item.quantity);
         }
 
-        // Generar ticket si hay productos comprados
         let newTicket = null;
         if (purchasedProducts.length > 0) {
             newTicket = await TicketService.createTicket({
@@ -166,12 +136,18 @@ export const purchaseCart = async (req, res) => {
                 purchaser: email,
                 products: purchasedProducts
             });
+
+            await MailingService.sendMail({
+                to: email,
+                subject: "Confirmación de Compra",
+                html: `<h1>¡Gracias por tu compra!</h1>
+                        <p>Tu compra ha sido confirmada con el código: <strong>${newTicket.code}</strong></p>
+                        <p>Total: <strong>$${newTicket.amount}</strong></p>`
+            });
         }
 
-        // Filtrar productos que no se pudieron comprar
-        const remainingItems = cart.products.filter(item => insufficientStock.includes(item.productId.toString()));
-        cart.products = remainingItems;
-        await cart.save();
+        cart.products = cart.products.filter(item => insufficientStock.includes(item.product._id.toString()));
+        await CartRepository.updateCart(cid, { products: cart.products });
 
         res.json({
             status: 'success',

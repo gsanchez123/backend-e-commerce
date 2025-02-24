@@ -3,7 +3,7 @@ import { UserDTO } from '../dtos/user.dto.js';
 import { generateToken } from '../utils/generateToken.js';
 import bcrypt from 'bcrypt';
 
-// 📌 Registro de usuario con validaciones
+//  Registro de usuario con validaciones
 export const registerUser = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
@@ -18,7 +18,7 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ status: 'error', message: 'El usuario ya existe' });
         }
 
-        // Crear nuevo usuario y hashear la contraseña
+        // Crea nuevo usuario y hashea la contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
         user = new User({ name, email, password: hashedPassword, role });
 
@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
     }
 };
 
-// 📌 Login de usuario con validaciones y token seguro
+//  Login de usuario con validaciones y token seguro
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -56,7 +56,7 @@ export const loginUser = async (req, res) => {
         // Enviar token como cookie segura
         res.cookie('authToken', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // En producción, usar HTTPS
+            secure: process.env.NODE_ENV === 'production', // En producción,  HTTPS
             maxAge: 3600000 // 1 hora
         });
 
@@ -67,7 +67,7 @@ export const loginUser = async (req, res) => {
     }
 };
 
-// 📌 Obtener perfil del usuario autenticado con DTO
+//se Obtiene perfil del usuario autenticado con DTO
 export const getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id).select('-password');
@@ -84,7 +84,7 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
-// 📌 Logout de usuario
+// Logout de usuario
 export const logoutUser = async (req, res) => {
     try {
         res.clearCookie('authToken');

@@ -8,7 +8,7 @@ export class TicketService {
                 throw new Error('Datos de ticket inválidos');
             }
 
-            const code = uuidv4().replace(/-/g, '').slice(0, 10); // Código más compacto y único
+            const code = uuidv4().replace(/-/g, '').slice(0, 10); 
 
             return await TicketRepository.createTicket({
                 code,

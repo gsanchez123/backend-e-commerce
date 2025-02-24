@@ -1,0 +1,121 @@
+/* ============================== */
+/*  ESTILOS GENERALES           */
+/* ============================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ============================== */
+/*  CONTENEDOR PRINCIPAL        */
+/* ============================== */
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* ============================== */
+/*  LOGO                        */
+/* ============================== */
+.logo {
+  height: 5em;
+  padding: 1.5em;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 1.5em #646cffaa);
+  transform: scale(1.1);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 1.5em #61dafbaa);
+}
+
+/* ============================== */
+/*  ANIMACIONES                 */
+/* ============================== */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 15s linear;
+  }
+}
+
+/* ============================== */
+/*  TARJETAS                     */
+/* ============================== */
+.card {
+  background: #fff;
+  padding: 2em;
+  margin: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ============================== */
+/*  TEXTO AUXILIAR              */
+/* ============================== */
+.read-the-docs {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ============================== */
+/*  RESPONSIVE DESIGN           */
+/* ============================== */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .logo {
+    height: 4em;
+  }
+
+  .card {
+    padding: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 0.8rem;
+  }
+
+  .logo {
+    height: 3.5em;
+  }
+
+  .card {
+    padding: 1em;
+    font-size: 0.9rem;
+  }
+}

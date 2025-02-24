@@ -1,16 +1,16 @@
 import { ticketDao } from '../dao/ticket.dao.js'; // Importación corregida
 
 export class TicketRepository {
-    // Crear un nuevo ticket
+    // Crea un nuevo ticket
     static async createTicket(data) {
         try {
-            return await ticketDao.create(data); // Se usa `ticketDao` en lugar de `TicketDAO`
+            return await ticketDao.create(data); 
         } catch (error) {
             throw new Error(`Error al crear ticket: ${error.message}`);
         }
     }
 
-    // Obtener un ticket por ID
+    // Obtiene un ticket por ID
     static async getTicketById(ticketId) {
         try {
             return await ticketDao.getById(ticketId);
@@ -19,7 +19,7 @@ export class TicketRepository {
         }
     }
 
-    // Obtener todos los tickets
+    // Obtiene todos los tickets
     static async getAllTickets() {
         try {
             return await ticketDao.getAll();

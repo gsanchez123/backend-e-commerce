@@ -5,14 +5,14 @@ import ProductManager from "../services/ProductManager.js";
 
 const router = express.Router();
 
-// Obtener __dirname en ES Modules
+// Obtiene __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Instancia de ProductManager con la ruta del JSON
 const productManager = new ProductManager(path.join(__dirname, "../../data/products.json"));
 
-// 📌 Página principal - Home
+//  Página principal - Home
 router.get("/home", async (req, res) => {
     try {
         const products = await productManager.getProducts();
@@ -23,7 +23,7 @@ router.get("/home", async (req, res) => {
     }
 });
 
-// 📌 Página de productos en tiempo real
+//  Página de productos en tiempo real
 router.get("/realtimeproducts", async (req, res) => {
     try {
         const products = await productManager.getProducts();

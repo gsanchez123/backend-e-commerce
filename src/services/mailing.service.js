@@ -7,7 +7,7 @@ export class MailingService {
     static async sendMail({ to, subject, html }) {
         try {
             const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST || "smtp.mailtrap.io",
+                host: process.env.SMTP_HOST || "sandbox.api.mailtrap.io",
                 port: process.env.SMTP_PORT || 2525,
                 secure: process.env.SMTP_SECURE === "true", // Para TLS/SSL
                 auth: {
@@ -17,7 +17,7 @@ export class MailingService {
             });
 
             const mailOptions = {
-                from: `"Sales Center" <${process.env.EMAIL_USER}>`,
+                from: `"hola como estas" <${process.env.EMAIL_USER}>`,
                 to,
                 subject,
                 html

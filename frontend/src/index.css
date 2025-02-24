@@ -1,0 +1,126 @@
+/* ============================== */
+/*  VARIABLES GLOBALES Y TEMAS  */
+/* ============================== */
+:root {
+  --primary-color: #646cff;
+  --primary-hover: #535bf2;
+  --text-light: rgba(255, 255, 255, 0.87);
+  --text-dark: #213547;
+  --bg-dark: #242424;
+  --bg-light: #ffffff;
+  --button-bg-dark: #1a1a1a;
+  --button-bg-light: #f9f9f9;
+  
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================== */
+/* ESTILOS GENERALES           */
+/* ============================== */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* ============================== */
+/*  ENLACES                     */
+/* ============================== */
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* ============================== */
+/*  ENCABEZADOS                 */
+/* ============================== */
+h1 {
+  font-size: 3em;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* ============================== */
+/*  BOTONES                     */
+/* ============================== */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--button-bg-dark);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-color);
+  color: #fff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* ============================== */
+/*  MODO CLARO AUTOMÁTICO       */
+/* ============================== */
+@media (prefers-color-scheme: light) {
+  :root {
+    --primary-color: #747bff;
+    --primary-hover: #6268e5;
+    --text-light: #213547;
+    --bg-dark: #ffffff;
+    --button-bg-dark: #f9f9f9;
+  }
+}
+
+/* ============================== */
+/* RESPONSIVE DESIGN           */
+/* ============================== */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5em;
+  }
+
+  button {
+    font-size: 0.9em;
+    padding: 0.5em 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  button {
+    font-size: 0.85em;
+    padding: 0.5em 0.8em;
+  }
+}

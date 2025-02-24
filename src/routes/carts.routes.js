@@ -12,19 +12,19 @@ import { roleMiddleware } from '../dao/middlewares/role.middleware.js';
 
 const router = express.Router();
 
-// 📌 Obtener carrito por ID (Autenticación requerida)
+//  Obtine carrito por ID (Autenticación requerida)
 router.get('/:cid', authenticateUser, getCartById);
 
-// 📌 Agregar producto al carrito (Solo usuarios pueden agregar productos)
+//  Agrega producto al carrito (Solo usuarios pueden agregar productos)
 router.put('/:cid', authenticateUser, roleMiddleware('user'), addProductToCart);
 
-// 📌 Eliminar producto del carrito
+//  Elimina producto del carrito
 router.delete('/:cid/products/:pid', authenticateUser, removeProductFromCart);
 
-// 📌 Vaciar carrito
+//  Vacia carrito
 router.delete('/:cid', authenticateUser, emptyCart);
 
-// 📌 Finalizar compra del carrito
+//  Finaliza compra del carrito
 router.post('/:cid/purchase', authenticateUser, purchaseCart);
 
 export default router;

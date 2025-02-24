@@ -1,7 +1,7 @@
 import { UserDAO } from '../dao/user.dao.js'; // Se corrigió la ruta de importación
 
 export class UserRepository {
-    // Crear un nuevo usuario
+    // Crea un nuevo usuario
     static async createUser(data) {
         try {
             return await UserDAO.create(data);
@@ -10,7 +10,7 @@ export class UserRepository {
         }
     }
 
-    // Obtener usuario por ID
+    // Obtiene usuario por ID
     static async getUserById(id) {
         try {
             return await UserDAO.getById(id);
@@ -19,7 +19,7 @@ export class UserRepository {
         }
     }
 
-    // Obtener usuario por Email
+    // Obtiene usuario por Email
     static async getUserByEmail(email) {
         try {
             return await UserDAO.getByEmail(email);
@@ -37,7 +37,7 @@ export class UserRepository {
         }
     }
 
-    // Obtener todos los usuarios
+    // Obtiene todos los usuarios
     static async getAllUsers() {
         try {
             return await UserDAO.getAll();

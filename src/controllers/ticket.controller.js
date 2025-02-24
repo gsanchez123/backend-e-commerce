@@ -1,7 +1,7 @@
 import { TicketService } from '../services/ticket.service.js';
 import { UserService } from '../services/user.service.js';
 
-// 📌 Crear un ticket de compra
+//  Crear un ticket de compra
 export const createTicket = async (req, res) => {
     try {
         const { amount, purchaser, products } = req.body;
@@ -25,7 +25,7 @@ export const createTicket = async (req, res) => {
     }
 };
 
-// 📌 Obtener un ticket por ID
+//  Obtener un ticket por ID
 export const getTicketById = async (req, res) => {
     try {
         const { ticketId } = req.params;
@@ -42,7 +42,7 @@ export const getTicketById = async (req, res) => {
     }
 };
 
-// 📌 Obtener todos los tickets de un usuario
+//  Obtener todos los tickets de un usuario
 export const getTicketsByUser = async (req, res) => {
     try {
         const { email } = req.params;
@@ -61,7 +61,7 @@ export const getTicketsByUser = async (req, res) => {
     }
 };
 
-// 📌 Cancelar un ticket (Solo admins pueden hacerlo)
+//  Cancelar un ticket (Solo admins pueden hacerlo)
 export const cancelTicket = async (req, res) => {
     try {
         const { ticketId } = req.params;

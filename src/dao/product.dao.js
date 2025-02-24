@@ -1,8 +1,8 @@
 // src/daos/product.dao.js
-import Product from '../models/product.model.js';
+import Product from '../models/products.model.js';
 
 export class ProductDAO {
-    // Crear un nuevo producto con validaciones
+    // Crea un nuevo producto con validaciones
     static async create(productData) {
         try {
             const newProduct = new Product(productData);
@@ -12,7 +12,7 @@ export class ProductDAO {
         }
     }
 
-    // Obtener producto por ID con control de errores
+    // Obtiene producto por ID con control de errores
     static async getById(id) {
         try {
             return await Product.findById(id);
@@ -21,7 +21,7 @@ export class ProductDAO {
         }
     }
 
-    // Obtener todos los productos
+    // Obtiene todos los productos
     static async getAll() {
         try {
             return await Product.find({});
@@ -30,7 +30,7 @@ export class ProductDAO {
         }
     }
 
-    // Filtrar productos por categoría
+    // Filtra productos por categoría
     static async getByCategory(category) {
         try {
             return await Product.find({ category });
@@ -39,7 +39,7 @@ export class ProductDAO {
         }
     }
 
-    // Actualizar un producto y devolver la versión nueva
+    // Actualiza un producto y devuelve la versión nueva
     static async update(id, data) {
         try {
             return await Product.findByIdAndUpdate(id, data, { new: true, runValidators: true });
@@ -48,7 +48,7 @@ export class ProductDAO {
         }
     }
 
-    // Eliminar producto por ID con control de errores
+    // Elimina producto por ID con control de errores
     static async delete(id) {
         try {
             return await Product.findByIdAndDelete(id);

@@ -1,15 +1,15 @@
 {
 	"folders": [
 		{
-			"path": "." // Indica que el espacio de trabajo es la carpeta raíz del proyecto
+			"path": "."
 		}
 	],
 	"settings": {
 		"files.exclude": {
-			"node_modules": true,
-			"dist": true,
-			".git": true,
-			".env": true
+			"**/node_modules/**": true,
+			"**/dist/**": true,
+			"**/.git/**": true,
+			"**/.env/**": true
 		},
 		"editor.tabSize": 2,
 		"editor.formatOnSave": true,
@@ -21,14 +21,19 @@
 		"terminal.integrated.defaultProfile.windows": "Git Bash",
 		"editor.codeActionsOnSave": {
 			"source.fixAll.eslint": true
-		}
+		},
+		"prettier.requireConfig": true
 	},
 	"extensions": {
 		"recommendations": [
 			"dbaeumer.vscode-eslint",
 			"esbenp.prettier-vscode",
 			"christian-kohler.path-intellisense",
-			"streetsidesoftware.code-spell-checker"
+			"streetsidesoftware.code-spell-checker",
+			"formulahendry.auto-close-tag",
+			"formulahendry.auto-rename-tag",
+			"xabikos.ReactSnippets",
+			"mgmcdermott.vscode-language-babel"
 		]
 	}
 }

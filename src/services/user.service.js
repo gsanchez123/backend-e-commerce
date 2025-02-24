@@ -4,10 +4,10 @@ import { generateToken } from '../utils/generateToken.js';
 import { UserDTO } from '../dtos/user.dto.js';
 
 export class UserService {
-    // 🟢 **Registrar usuario**
+    // **Registrar usuario**
     static async registerUser({ first_name, last_name, email, age, password }) {
         try {
-            // Verificar si el usuario ya existe
+            // Verifica si el usuario ya existe
             const existingUser = await UserRepository.getUserByEmail(email);
             if (existingUser) {
                 throw new Error('El usuario ya existe');
@@ -26,13 +26,13 @@ export class UserService {
                 role: 'user'
             });
 
-            return new UserDTO(newUser); // Retornar DTO sin datos sensibles
+            return new UserDTO(newUser); // Retorna DTO sin datos sensibles
         } catch (error) {
             throw new Error(`Error en el registro: ${error.message}`);
         }
     }
 
-    // 🔵 **Login de usuario**
+    //  **Login de usuario**
     static async loginUser({ email, password }) {
         try {
             const user = await UserRepository.getUserByEmail(email);
@@ -50,7 +50,7 @@ export class UserService {
         }
     }
 
-    // 🟠 **Obtener usuario por ID**
+    //  **Obtener usuario por ID**
     static async getUserById(userId) {
         try {
             const user = await UserRepository.getUserById(userId);
@@ -61,7 +61,7 @@ export class UserService {
         }
     }
 
-    // 🔄 **Actualizar usuario**
+    //  **Actualizar usuario**
     static async updateUser(userId, updateData) {
         try {
             // Si se intenta actualizar la contraseña, encriptarla antes de guardarla
@@ -78,7 +78,7 @@ export class UserService {
         }
     }
 
-    // ❌ **Eliminar usuario**
+    //  **Eliminar usuario**
     static async deleteUser(userId) {
         try {
             const deletedUser = await UserRepository.deleteUser(userId);
