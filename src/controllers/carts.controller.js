@@ -77,7 +77,7 @@ export const removeProductFromCart = async (req, res) => {
     }
 };
 
-// 📌 Vaciar un carrito completamente
+// 📌 Vaciar el carrito completamente
 export const emptyCart = async (req, res) => {
     try {
         const { cid } = req.params;
@@ -87,12 +87,12 @@ export const emptyCart = async (req, res) => {
             return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
         }
 
-        // Devolver stock de los productos al vaciar el carrito
+        // Devuelve stock de los productos al vaciar el carrito
         for (const item of cart.products) {
             await ProductRepository.updateProductStock(item.product, item.quantity);
         }
 
-        // Vaciar el carrito
+        // Vacia el carrito
         await CartRepository.updateCart(cid, { products: [] });
 
         res.json({ status: 'success', message: 'Carrito vaciado correctamente' });

@@ -40,7 +40,7 @@ const cartSchema = new mongoose.Schema({
     }
 });
 
-// Middleware para actualizar `updatedAt` y recalcular el total antes de guardar
+// Middleware para actualiza `updatedAt` y recalcular el total antes de guardar
 cartSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
     this.total = this.products.reduce((acc, item) => acc + (item.quantity * item.priceAtPurchase), 0);
