@@ -53,5 +53,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
+// Previene que Mongoose compile el modelo más de una vez
+const UserModel = mongoose.models.User || mongoose.model('User', userSchema);
 
-export default mongoose.model('User', userSchema);
+export default UserModel;

@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import mongoose from 'mongoose';
 import { connectDB } from './config/db.js';
 import './config/passport.js'; // Configuración de Passport
 import productsRoutes from './routes/products.routes.js';
@@ -14,6 +15,7 @@ import cartsRoutes from './routes/carts.routes.js';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/users.routes.js';
 import ticketRoutes from './routes/ticket.routes.js';
+import mocksRouter from './routes/mocks.routes.js'; // 📌 Nuevo router para Mocking
 import { MailingService } from './services/mailing.service.js';
 import { TwilioService } from './services/twilio.service.js';
 import Product from './models/products.model.js'; // Modelo de productos
@@ -41,7 +43,7 @@ app.use(cors({
     credentials: true // Permite cookies y autenticación con credenciales
 }));
 
-//  Middleware para manejar JSON mal formateado
+// Middleware para manejar JSON mal formateado
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -55,20 +57,26 @@ app.use((err, req, res, next) => {
     next();
 });
 
-// Conexión a la Base de Datos
-connectDB();
+// Conexión a la Base de Datos con Mongoose
+mongoose
+    .connect(process.env.MONGO_URI || "mongodb://localhost:27017/ecommerce")
+    .then(() => console.log("🔥 Conectado a la base de datos"))
+    .catch((err) => console.error("Error al conectar con la base de datos:", err));
 
 // Servir el frontend de React desde `frontend/dist`
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-//  Rutas de la API
+//Registra el router de Mocking
+app.use('/api/mocks', mocksRouter);
+
+// Rutas de la API
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartsRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
-//  Rutas de prueba para mailing y Twilio
+// Rutas de prueba para mailing y Twilio
 app.post('/api/testmail', async (req, res) => {
     try {
         const { to, subject, html } = req.body;
@@ -89,7 +97,7 @@ app.post('/api/testtwilio', async (req, res) => {
     }
 });
 
-//  Configuración de WebSocket para chat en vivo y productos en tiempo real
+// Configuración de WebSocket para chat en vivo y productos en tiempo real
 const io = new Server(server, { 
     cors: { origin: allowedOrigins, credentials: true } 
 });
@@ -97,7 +105,7 @@ const io = new Server(server, {
 io.on('connection', async (socket) => {
     console.log('✅ Nuevo cliente conectado');
 
-    //  Emitir productos iniciales al usuario que se conecta
+    // Emitir productos iniciales al usuario que se conecta
     try {
         const products = await Product.find();
         socket.emit('updateProducts', products);
@@ -105,7 +113,7 @@ io.on('connection', async (socket) => {
         console.error('Error al obtener productos:', err);
     }
 
-    //  Agregar un nuevo producto
+    // Agregar un nuevo producto
     socket.on('addProduct', async (productData) => {
         try {
             const newProduct = await Product.create(productData);
@@ -116,7 +124,7 @@ io.on('connection', async (socket) => {
         }
     });
 
-    //  Eliminar un producto
+    // Eliminar un producto
     socket.on('deleteProduct', async (productId) => {
         try {
             await Product.findByIdAndDelete(productId);
@@ -128,7 +136,7 @@ io.on('connection', async (socket) => {
         }
     });
 
-    //  Mensajería en vivo
+    // Mensajería en vivo
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
     });
@@ -141,18 +149,18 @@ io.on('connection', async (socket) => {
 // Permitir que otros módulos accedan a la instancia de Socket.IO
 app.set('io', io);
 
-//  Middleware de manejo global de errores
+// Middleware de manejo global de errores
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ error: 'Ocurrió un error en el servidor' });
 });
 
-//  Servir React en todas las rutas no manejadas por la API
+// Servir React en todas las rutas no manejadas por la API
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
-//  Levantar el servidor
+// Levantar el servidor
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
