@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: backend-ecommerce
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGO_URL=mongodb://host.docker.internal:27017/Project01
+    volumes:
+      - .:/app
+      - /app/node_modules  # Protege los node_modules internos
+    restart: always
+
