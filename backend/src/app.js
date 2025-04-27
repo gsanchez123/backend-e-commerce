@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import helmet from 'helmet'; // ✅ Importamos helmet acá
 import dotenv from 'dotenv';
 import passport from 'passport';
 import mongoose from 'mongoose';
@@ -30,6 +31,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
+// 🔹 Seguridad adicional: Helmet
+app.use(helmet()); // ✅ Agregado acá para proteger cabeceras HTTP
+
 // 🔹 Configuración de CORS Seguro (Permite solo localhost y producción)
 const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173'];
 app.use(cors({
@@ -49,7 +53,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(passport.initialize());
 
-// Captura errores de JSON inválidos
+// Captura errores de JSON inválido
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
         return res.status(400).json({ status: "error", message: "JSON inválido en la solicitud" });
@@ -66,7 +70,7 @@ mongoose
 // Servir el frontend de React desde `frontend/dist`
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-//Registra el router de Mocking
+// Registrar el router de Mocking
 app.use('/api/mocks', mocksRouter);
 
 // Rutas de la API
