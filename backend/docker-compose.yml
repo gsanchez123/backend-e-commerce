@@ -1,16 +1,23 @@
-version: '3.8'
+version: '3.9'
 
 services:
   backend:
     build: .
     container_name: backend-ecommerce
     ports:
-      - "3001:3000" # <-- Cambio: escucha en el puerto 3001 afuera
+      - "3000:3000"
     environment:
-      - PORT=3000
-      - MONGO_URL=mongodb://host.docker.internal:27017/Project01
-    volumes:
-      - .:/app
-      - /app/node_modules
-    restart: always
+      - MONGO_URI=mongodb://mongo:27017/ecommerce
+    depends_on:
+      - mongo
 
+  mongo:
+    image: mongo:6
+    container_name: mongo-ecommerce
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

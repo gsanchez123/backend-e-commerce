@@ -1,25 +1,64 @@
-# backend-e-commerce 2
-# E-Commerce Final
+# Backend E-commerce - Proyecto Final
 
-Este proyecto es la entrega final de e-commerce, implementado con una arquitectura en capas, DAO, Repository, DTO, autenticación con roles, mailing (Mailtrap) y mensajería SMS/WhatsApp (Twilio).
+el repositorio de backend de una aplicación de e-commerce desarrollada con Node.js, Express y MongoDB. Incluye funcionalidades como autenticación de usuarios, documentación con Swagger, integración con Twilio y Mailtrap, además de estar completamente dockerizado para facilitar su despliegue.
 
-## Requisitos
+---
 
-- Node.js v16+
-- MongoDB (local o Atlas)
-- Cuenta en Mailtrap para correos
-- Cuenta en Twilio para SMS/Whatsapp
+## 📦 Tecnologías Utilizadas
 
-RUTAS PRINCIPALES
-GET / - Mensaje de bienvenida
-POST /api/users/register - Registro de usuario
-POST /api/users/login - Login de usuario
-GET /api/users/current - Información del usuario actual (DTO)
-POST /api/carts/:cid/purchase - Procesar compra del carrito
-POST /api/products (Admin) - Crear producto
-PUT /api/products/:pid (Admin) - Actualizar producto
-DELETE /api/products/:pid (Admin) - Eliminar producto
-Notas
-Se utiliza Mailtrap para el envío de correos.
-Se utiliza Twilio para el envío de SMS/Whatsapp.
-La lógica de compra verifica stock y genera un ticket, dejando en el carrito solo los productos no procesados.
+- Node.js
+- Express.js
+- MongoDB (Dockerizado)
+- Mongoose
+- JWT (Autenticación)
+- Swagger (Documentación)
+- Mocha + Chai (Testing)
+- Docker y Docker Compose
+- Twilio (Notificaciones SMS)
+- Mailtrap (Testing de correo)
+- dotenv
+
+
+---
+
+## 🧪 Tests Funcionales
+
+Se desarrollaron pruebas funcionales para todos los endpoints del router `adoption.router.js` utilizando `Mocha` y `Chai`.
+
+Para correr los tests:
+
+```bash
+npm test
+
+📄 Documentación de la API
+La documentación de los endpoints del módulo Users está disponible a través de Swagger en:
+
+http://localhost:3000/api-docs
+
+Incluye:
+
+Registro de usuario
+
+Login
+
+Logout
+
+Perfil
+
+🐳 Docker
+✅ Pasos para levantar el proyecto con Docker:
+https://github.com/gsanchez123/backend-e-commerce.git
+cd backend-ecommerce/backend
+
+🐳 Imagen en DockerHub
+La imagen Docker del proyecto se encuentra disponible en:
+
+🔗 https://hub.docker.com/r/gonzalo12/backend-ecommerce
+
+
+
+🔗 Autor
+Gonzalo Sánchez
+📧 gonzalo@example.com
+🐙 DockerHub - gonzalo12
+
